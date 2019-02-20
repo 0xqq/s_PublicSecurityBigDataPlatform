@@ -1,0 +1,199 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>公安大数据平台</title>
+    <link rel="stylesheet" href="./css/common.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/lyz.calendar.css">
+
+    <script type="text/javascript" src="./js/md/html5shiv.js"></script>
+    <style>
+        .areaselect1 li a{ font-size: 12px; line-height: 18px;}
+        .input-txt{ width: 107px; height: 31px; line-height: 31px; background: #000c22; color: #b8d4ff; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="headL1"><a href="newIndex.html" target="_self" style="color:#FFF;">&nbsp;&nbsp;公安大数据平台</a></div>
+    <div class="headL2" style="display:none;">刑侦大数据</div>
+    <div class="headM" style="width: 170px;">
+        <a href="./html/antiTerroristData.html" >反恐</a>
+        <!--<a href="html/networkMonitoringData.html" >网监</a>-->
+        <!--<a href="./html/criminalInvestigationData.html" >刑侦</a>-->
+        <a class="a1" href="html/EconomicsData.html " >经侦</a>
+    </div>
+    <div class="headR">
+        <ul>
+            <li class="la"><a>个人信息</a></li>
+            <li class="lb"><a>修改密码</a></li>
+            <li class="lc"><a>安全退出</a></li>
+            <li class="ld"><span>简体</span>｜<span>繁体</span></li>
+        </ul>
+    </div>
+</header>
+
+<section class="indexwarp">
+
+    <aside class="indexLeft border">
+        <div class="indexSearch">
+            <div class="indexSearchC">
+                <div class="searchName">搜索</div>
+                <div class="searchContent"><input class="input indexput1" type="search" id="searchContent" placeholder="搜索关键字" onkeydown="searchFn(event)"></div>
+            </div>
+            <h3>筛选条件：</h3>
+            <div class="timeSearchC" style="display: inline-block; ">
+                <div class="searchName">时间</div>
+                <div class="searchContent" style="width: 240px;">
+                    <div class="select w115" style="display: inline-block;">
+                        <input type="text" id="txtDate" class="input-txt"/>
+                    </div>
+
+                    <div class="select w115" style="display: inline-block;">
+
+                        <input type="text" id="txtDate2" class="input-txt"/>
+                    </div>
+
+                    
+
+                </div>
+            </div>
+            <div class="indexSearchC">
+                <div class="searchName" style="padding: 0;">地区</div>
+                <div class="searchContent">
+
+                    <div class="select w236">
+                        <span class="val"> 全国</span>
+                        <span class="icondown"></span>
+
+                        <ul class="selectContent w236 areaselect1"  style="z-index:7;">
+                            <li><a href="javascript:;"  data-Code="" data-Pinyin="china"   class="selectItem">全国</a></li>
+                            <div id="dataArea">
+
+                            </div>
+                            <script id="tDataArea" type="text/x-handlebars-template">
+
+                                {{#each data}}
+                                <li><a href="javascript:;" data-Code="{{area_code}}" data-Pinyin="{{pinyin}}"  class="selectItem">{{area_name}}</a></li>
+                                {{/each}}
+                            </script>
+
+
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="indexSearchC">
+                <div class="searchName" style="padding: 0;">类型</div>
+                <div class="searchContent">
+
+                    <div class="select w236">
+                        <span class="val" id="newDataType">全部</span>
+                        <span class="icondown"></span>
+                        <ul class="selectContent w236"  style="z-index:8;">
+                            <li><a href="javascript:;"  class="selectItem">全部</a></li>
+                            <div  id="dataType" >
+
+
+                            </div>
+                            <script  id="tDataType" type="text/x-handlebars-template">
+
+                                {{#each data}}
+                                <li><a href="javascript:;" data-Id="{{forewarnId}}"  class="selectItem">{{type_name}}</a></li>
+                                {{/each}}
+                            </script>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="leftbox2">
+            <h3>预警信息总览</h3>
+            <div class="leftTable">
+                <table>
+                    <tr>
+                        <th class="th1">等级</th>
+                        <th class="th2">姓名</th>
+                        <th class="th2">类型</th>
+                        <th class="th2">位置</th>
+                    </tr>
+
+                    <tbody id="allWarningInformation">
+
+                    </tbody>
+
+                </table>
+                <script id="tAllWarningInformation" type="text/x-handlebars-template">
+                    {{#each data}}
+                    <tr onclick="toNewpage('{{typeName}}',{{pId}})">
+                        <td>{{grade}}</td>
+                        <td>{{personName}}</td>
+                        <td>{{typeName}}</td>
+                        <td>{{location}}</td>
+                    </tr>
+                    {{/each}}
+                </script>
+            </div>
+        </div>
+        <div class="indexchart1" style="padding:6px; ">
+            <div id="indexchart1" style="height:200px;"></div>
+
+        </div>
+    </aside>
+
+    <div class="indexMiddle" style="height:800px;" style="position:relative;">
+        <div style="width:320px; height:110px; position:absolute; left:50%; margin-left:-160px; top:45px; z-index:99;">
+            <h3 style="font-size:32px; color:#cfeaff; font-weight:700; line-height:34px;">公安大数据实时监控台</h3>
+            <p style="font-size:40px; color:#889fbd;  line-height:60px; display: none;" >
+                <span>231</span>&nbsp;&nbsp;,&nbsp;<span>865</span>&nbsp;&nbsp;,&nbsp;<span>416</span></p>
+        </div>
+        <div style="height:1200px; width: 100%" id="main">
+
+        </div>
+    </div>
+
+    <aside class="indexRight">
+        <div class="indexRight1">
+            <h3>发案率排行</h3>
+            <div class="indexchart2" style="padding:6px;  padding-top:3px;">
+                <div id="indexchart2" style="height:304px;"></div>
+            </div>
+        </div>
+        <div class="indexRight2">
+            <h3>发案率同期比较</h3>
+            <div class="indexchart3" style="padding:6px; padding-top:3px;">
+                <div id="indexchart3" style="height:272px;"></div>
+            </div>
+        </div>
+    </aside>
+</section>
+
+<footer style="position: fixed; width: 100%; bottom: 0px;">
+    <div class="footerc">
+        <p>版权所有：中华人民共和国公安部 京IPC备 05070602号</p>
+        <p>地址：北京市东长安街14号 邮编：100741</p>
+    </div>
+</footer>
+<script type="text/javascript" src="./js/lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="./js/md/es5-array.js"></script>
+<!--<script type="text/javascript" src="../js/lib/jquery/jquery.xdomainrequest.min.js"></script>-->
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="./js/lib/jquery/lyz.calendar.min.js"></script>
+<script type="text/javascript" src="./js/lib/echarts/echarts3.min.js"></script>
+<script type="text/javascript" src="./js/lib/handlebars-v4_0_5.js"></script>
+<script type="text/javascript" src="./js/md/placeHolder.js"></script>
+<script type="text/javascript" src="./js/md/mainIndex.js"></script>
+<script type="text/javascript" src="./js/md/common.js"></script>
+<script type="text/javascript" src="./js/md/index.js"></script>
+
+</body>
+</html>

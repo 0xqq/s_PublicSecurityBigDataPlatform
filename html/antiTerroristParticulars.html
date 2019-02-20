@@ -1,0 +1,343 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>公安大数据平台</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/ghm.css">
+    <script type="text/javascript" src="../js/md/html5shiv.js"></script>
+    <style type="text/css">
+
+        .containerDetail li p {
+            color: #FFF;
+        }
+        .bActive{color:red;}
+        #publicSecurityArchives p{overflow: hidden;}
+        .anchorBL{
+            display:none;
+        }
+
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+<header>
+    <div class="headL1"><a href="antiTerroristData.html" target="_self" style="color:#FFF;">反恐大数据</a></div>
+    <div class="headL2">预警详情</div>
+    <div class="headR">
+        <ul>
+            <li class="la"><a>个人信息</a></li>
+            <li class="lb"><a>修改密码</a></li>
+            <li class="lc"><a>安全退出</a></li>
+            <li class="ld"><span>简体</span>｜<span>繁体</span></li>
+        </ul>
+    </div>
+</header>
+
+<section class="indexwarp">
+    <aside class="indexLeft">
+
+
+        <div class="border-blue atp-top-content" id="essentialInformation">
+
+        </div>
+        <script id="tEssentialInformation" type="text/x-handlebars-template">
+            {{#each data}}
+            <h1 class="h1-atd-title">基本信息</h1>
+            <div class="clearfix atp-top-box">
+                <img src={{photo}} class="fl" onerror="imgError(this)">
+                <div class="fl ml10 atp-top-box-text">
+                    <p class="clearfix">{{personName}}</p>
+                    <p class="clearfix"><span class="fl mr25">{{gender}}</span><span class="fl">{{nation}}</span>
+                    </p>
+                    <p class="clearfix c-orange">{{personType}}</p>
+                </div>
+            </div>
+            <div class="atp-top-box2 clearfix">
+                <p>
+                    <label>身份证号：</label>
+                    <span>{{idcardNo}}</span>
+                </p>
+                <p>
+                    <label>护照号：</label>
+                    <span>{{passportNo}}</span>
+                </p>
+                <p>
+                    <label>驾驶证号：</label>
+                    <span>{{drivingLicence}}</span>
+                </p>
+                <p>
+                    <label>手机号码：</label>
+                    <span>{{mobile}}</span>
+                </p>
+                <p>
+                    <label>户籍地址：</label>
+                    <span>{{permanentAddress}}</span>
+                </p>
+                <p>
+                    <label>暂住地址：</label>
+                    <span>{{temporaryAddress}}</span>
+                </p>
+                <p>
+                    <label>银行账号：</label>
+                    {{#each bankAccount1}}
+                    <span>{{this}}</span>
+                    {{/each}}
+
+                </p>
+                <p style="clear:both">
+                    <label>个人资产：</label>
+                    {{#each personalAssets1}}
+                    <span>{{this}}</span>
+                    {{/each}}
+
+                </p>
+            </div>
+            {{/each}}
+        </script>
+        <div class="border-blue atp-bottom-content mt10">
+            <h1 class="h1-atd-title">公安档案</h1>
+            <div class="p10 atp-bottom-box" id="publicSecurityArchives">
+
+            </div>
+            <script id="tPublicSecurityArchives" type="text/x-handlebars-template">
+                {{#each data}}
+                <div class="clearfix special-box">
+                    <p class="">
+                        <label class="fl">重点人员编号：</label>
+                        <span class="fl">{{recordId}}</span>
+                    </p>
+                    <p>
+                        <a href="javascript:;" class="fl ml100">部档案</a>
+                        <a href="javascript:;" class="fl">省档案</a>
+
+                    </p>
+
+                </div>
+                <p>
+                    <label class="fl">重点人员类型：</label>
+                    <span class="fl c-orange">{{personType}}</span>
+                </p>
+                <p>
+                    <label class="fl">管辖立案单位：</label>
+                    <span class="fl">{{recordUnit}}</span>
+                </p>
+                <p class="f12">存入重点人员库时间：<span>{{recordTime}}</span></p>
+                {{/each}}
+            </script>
+        </div>
+    </aside>
+    <aside class="indexMiddle border-blue" style="margin-bottom:100px;">
+        <h1 class="h1-atd-title">预测</h1>
+        <div class="m5 bg-blue o-hide">
+
+            <div class="p5 clearfix b-b-blue p-relative">
+
+                <h2 class="h2-title" style="position:absolute; left:10px; top:10px; z-index:30;">社交行为</h2>
+                <div id="action" style="position:absolute; left:10px; top:55px; z-index:100;">
+
+                    <!--<button class="#1" style="background:#023fb2;  display: none;  color:#FFF" onclick="random()" >选择</button>-->
+
+                    <button class="#2" style="background:#023fb2; color:#FFF" onclick="reduction()">重置</button>
+
+                </div>
+                <div class="atp-chart" id="forceDirectedSA" style="height:300px; position:relative;">
+                    <div id="forceDirectedSA-chart" style="display:block; width:100%; height:300px; ">
+
+                        <!-- script -->
+
+                    </div>
+
+
+                </div>
+                <script id="tForceDirectedSA-pop" type="text/x-handlebars-template">
+                    {{#each data}}
+                    <div class="clearfix personage-box-content">
+                        <img src={{photo}} class="fl" onerror="imgError(this)">
+                        <div class="fl personage-box-content-text ml10" style="width:195px;">
+                            <p>
+                                <label>姓名：</label>
+                                <span>{{name}}</span>
+                            </p>
+                            <p>
+                                <label>关系：</label>
+                                <span>{{relation}}</span>
+                            </p>
+                            <div class="choice-box clearfix">
+                                <label class="fl">嫌疑：</label>
+                                <span class="fl active">{{suspicion}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <p>1.原因:{{cause}}</p>
+
+
+
+                    </div>
+                    {{/each}}
+                </script>
+                <script id="tForceDirectedSA-pop1" type="text/x-handlebars-template">
+                    {{#each data}}
+                    <div class="clearfix personage-box-content">
+                        <img src={{photo}} class="fl" onerror="imgError(this)">
+                        <div class="fl personage-box-content-text ml10" style="width:195px;">
+                            <p>
+                                <label>姓名：</label>
+                                <span>{{name}}</span>
+                            </p>
+                            <p>
+                                <label>关系：</label>
+                                <span>{{relation}}</span>
+                            </p>
+                            <div class="choice-box clearfix">
+                                <label class="fl">嫌疑：</label>
+                                <span class="fl active">{{suspicion}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <p >1.通话次数: >{{call_number}}次/天</p>
+                        <p>2.联系人电话：{{contact_phone}}</p>
+
+
+                    </div>
+                    {{/each}}
+                </script>
+                <script id="tForceDirectedSA-pop2" type="text/x-handlebars-template">
+                    {{#each data}}
+                    <div class="clearfix personage-box-content">
+                        <img src={{photo}} class="fl" onerror="imgError(this)">
+                        <div class="fl personage-box-content-text ml10" style="width:195px;">
+                            <p>
+                                <label>姓名：</label>
+                                <span>{{name}}</span>
+                            </p>
+                            <p>
+                                <label>关系：</label>
+                                <span>{{relation}}</span>
+                            </p>
+                            <div class="choice-box clearfix">
+                                <label class="fl">嫌疑：</label>
+                                <span class="fl active">{{suspicion}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        <p>1.同行地点:{{peer_location}}</p>
+
+
+                    </div>
+                    {{/each}}
+                </script>
+                <div class="border-blue clearfix personage-box loading false" id="forceDirectedSA-pop">
+
+                </div>
+            </div>
+            <div style="position:relative;">
+                <div style="position:absolute; z-index:30;">
+                    <h2 class="h2-title">重点区域</h2>
+                    <p style="text-indent:15px;">人员流入预警/敏感人车查控</p>
+                </div>
+
+                <div class="p5" id="container" style="height:332px;">
+
+                </div>
+                <div class="containerDetail" style="position: relative;">
+                    <div style="height: 74px; width: 100%; top: -90px; padding-left:10px; position: absolute;">
+                        <p style="height: 37px; padding-left:25px; line-height: 27px; background: url('../images/localtionIcon1.png') no-repeat -5px;">
+                            车辆轨迹</p>
+                        <p style="height: 37px; padding-left:25px;line-height: 27px;  background: url('../images/localtionIcon.png') no-repeat">
+                            人员轨迹</p>
+                    </div>
+                    <h3>1.车的轨迹:
+                        <a style="display: inline-block; float: right; color: #FFF; cursor: pointer;" onclick="recoverMap()">还原</a>
+                    </h3>
+                    <ul id="Atrajectory" style="overflow: hidden">
+
+
+
+                    </ul>
+                    <script id="tAtrajectory" type="text/x-handlebars-template">
+                        {{#each data}}
+                        <li onclick="toAddress('{{areaname}}','{{address}}',this)" style="cursor:pointer"><span>{{flow_time}}</span><span>{{areaname}}</span><span  style="cursor:pointer;" >{{address}}</span></li>
+                        {{/each}}
+                    </script>
+                    <h3 style="color: #FFF;">2.人的轨迹:</h3>
+                    <ul id="Btrajectory" style="overflow: hidden">
+
+
+                    </ul>
+                    <script id="tBtrajectory" type="text/x-handlebars-template">
+                        {{#each data}}
+                        <li onclick="toAddress('{{areaname}}','{{address}}',this)" style="cursor:pointer"><p><span>{{flow_time}}</span><span>{{areaname}}</span><span  style="cursor:pointer;" >{{address}}</span></p></li>
+                        {{/each}}
+                    </script>
+                </div>
+            </div>
+        </div>
+    </aside>
+    <aside class="indexRight border-blue">
+        <h1 class="h1-atd-title">预测</h1>
+        <div class="m5 bg-blue o-hide">
+            <div style="background:#031344; padding-bottom:10px;">
+                <h2 class="h2-title">行踪位置概率</h2>
+                <div class="small-box city-ranking">
+                    <ul id="cityRanking">
+
+
+                    </ul>
+                    <script id="tCityRanking" type="text/x-handlebars-template">
+
+                        {{#each data}}
+
+                        <li>
+                            <div class="city_order">{{index}}</div>
+                            <div class="city_name">{{areaname}}</div>
+                            <div class="city_num">
+                                <span style="width:{{probability}}%"></span>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </script>
+
+                </div>
+            </div>
+
+        </div>
+    </aside>
+</section>
+<footer>
+    <div class="footerc">
+        <p>版权所有：中华人民共和国公安部 京IPC备 05070602号</p>
+        <p>地址：北京市东长安街14号 邮编：100741</p>
+    </div>
+</footer>
+<script type="text/javascript" src="../js/lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="../js/md/es5-array.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js"
+        type="text/javascript" charset="utf-8"></script>
+<!--<script type="text/javascript" src="../js/lib/jquery/jquery.xdomainrequest.min.js"></script>-->
+<script type="text/javascript" src="../js/lib/echarts/echarts-all-3.js"></script>
+<script type="text/javascript" src="../js/lib/handlebars-v4_0_5.js"></script>
+<script type="text/javascript" src="../js/lib/echarts/forceDirectedChartSA.js"></script>
+<script type="text/javascript" src="../js/md/common.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=HbUVYMUg6PwbOnXkztdgSQlQ"></script>
+<script type="text/javascript" src="../js/md/map.js"></script>
+<script type="text/javascript" src="../js/md/antiTerroristParticulars.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+

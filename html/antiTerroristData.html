@@ -1,0 +1,344 @@
+<!doctype html>
+<html id="antiTerroristData">
+<head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+   <meta name="description" content="">
+   <meta name="keywords" content="">
+   <title>公安大数据平台</title>
+   <link rel="stylesheet" href="../css/common.css">
+   <link rel="stylesheet" href="../css/ghm.css">
+   <link rel="stylesheet" href="../css/jquery.mCustomScrollbar.css">
+   <script type="text/javascript" src="../js/md/html5shiv.js"></script>
+   <style>
+      #scrollBox p strong {
+         font-weight: normal;
+         color: #ff0000;
+      }
+
+      .selectTimeButton {
+
+      }
+
+      .right11 p {
+         height: 28px;
+         overflow: hidden;
+      }
+   </style>
+</head>
+<body>
+<header>
+   <div class="headL1"><a href="../index.html" target="_self" style="color:#FFF;">公安大数据平台</a></div>
+   <div class="headL2">反恐大数据</div>
+   <div class="headR">
+      <ul>
+         <li class="la"><a>个人信息</a></li>
+         <li class="lb"><a>修改密码</a></li>
+         <li class="lc"><a>安全退出</a></li>
+         <li class="ld"><span>简体</span>｜<span>繁体</span></li>
+      </ul>
+   </div>
+</header>
+
+<section class="indexwarp" style="height:970px;">
+   <aside class="indexLeft">
+      <div class="top-content border-blue">
+         <h1 class="h1-atd-title">可疑人员预警指数
+            <a href="javascript:;" class="fr" onclick="allPersonne()">查看全部</a>
+            <!--  <a href="javascript:;" class="fr">地图定位</a> -->
+         </h1>
+         <div id="suspiciousPersonne" style="height: 1000px;"></div>
+
+
+      </div>
+      <script id="tSuspiciousPersonne" type="text/x-handlebars-template">
+
+         {{#each data}}
+         <div class="personnel-box">
+            <img src="{{photoSource}}" class="fl" onerror="imgError(this)">
+            <div class="fl ml10 personnel-content">
+               <p class="f14 c-blue">姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：<span class="c-blue2 w90">{{pName}}</span>
+               </p>
+               <div class="progress-bar"><span style="width:{{index}}%" class="schedule w50"></span></div>
+               <p class="f14 c-blue3"><span>{{pType}}</span><a href="antiTerroristParticulars.html?pId={{pId}}"
+                                                               target="_self" class="f12 c-blue2 fr">详情</a>
+               </p>
+            </div>
+         </div>
+
+         {{/each}}
+      </script>
+      <div class="bottom-content mt10 border-blue">
+         <h1 class="h1-atd-title">群众举报提示
+            <a href="javascript:;" class="fr" onclick="infomationTip()">查看全部</a>
+         </h1>
+         <div class="small-box b-hint">
+            <div style="position: relative; overflow: hidden; height: 80px;">
+               <div id="scrollBox" style="position: absolute; top: 0px; line-height: 20px;">
+
+
+               </div>
+               <script id="tScrollBox" type="text/x-handlebars-template">
+
+                  {{#each data}}
+                  <p><span>{{index}}.</span>{{{reportContent}}}</p>
+                  {{/each}}
+               </script>
+
+            </div>
+
+
+         </div>
+      </div>
+   </aside>
+   <aside class="indexMiddle" style="overflow:hidden;">
+      <div class="border-blue clearfix">
+         <div class="indexMiddleTopContent m5 clearfix">
+            <div class="fl mt10">
+               <div class="searchName">重点区域</div>
+               <div class="select w190">
+                  <span class="val" id="importantArea">全部</span>
+                  <span class="icondown"></span>
+                  <ul class="selectContent  w190" style="z-index:10;">
+                     <div id="dataArea">
+
+
+                     </div>
+                     <script id="tDataArea" type="text/x-handlebars-template">
+                        <li><a href="javascript:;" class="selectItem">全部</a></li>
+                        {{#each data}}
+                        <li><a href="javascript:;" class="selectItem">{{this}}</a></li>
+                        {{/each}}
+                     </script>
+
+                  </ul>
+               </div>
+            </div>
+            <div class="fl mt10">
+               <div class="searchName">地区</div>
+               <div class="select w125">
+                  <span class="val" id="dataNameVal"> 全国</span>
+                  <span class="icondown"></span>
+                  <ul class="selectContent w125" style="z-index:9;">
+                     <div id="dataName">
+
+                     </div>
+                     <script id="tDataName" type="text/x-handlebars-template">
+                        <li><a data-Code="" data-Pinyin="china" href="javascript:;"
+                               class="selectItem ">全国</a></li>
+                        {{#each data}}
+                        <li><a href="javascript:;" data-Code="{{code}}" data-Pinyin="{{pinyin}}"
+                               class="selectItem ">{{region}}</a></li>
+                        {{/each}}
+                     </script>
+
+                  </ul>
+               </div>
+            </div>
+            <div class="fl mt10">
+               <div class="searchName">类型</div>
+               <div class="select w125">
+                  <span class="val" id="forewarnType">全部</span>
+                  <span class="icondown"></span>
+                  <ul class="selectContent w125" style="z-index:8;">
+                     <li><a href="javascript:;" class="selectItem">全部</a></li>
+                     <div id="dataType">
+
+
+                     </div>
+                     <script id="tDataType" type="text/x-handlebars-template">
+
+                        {{#each data}}
+                        <li><a href="javascript:;" class="selectItem">{{this}}</a></li>
+                        {{/each}}
+                     </script>
+
+                  </ul>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="indexMiddleBottom" style="height:1200px;" id="main"></div>
+   </aside>
+   <aside class="indexRight">
+      <div class="border-blue">
+         <h1 class="h1-atd-title">城市涉恐预警排行</h1>
+         <div class="small-box city-ranking">
+            <ul id="cityRanking">
+
+            </ul>
+            <script id="tCityRanking" type="text/x-handlebars-template">
+
+               {{#each data}}
+
+               <li>
+                  <div class="city_order">{{index}}</div>
+                  <div class="city_name">{{areaName}}</div>
+                  <div class="city_num">
+                     <span style="width:{{forewarnNum}}%"></span>
+                  </div>
+               </li>
+               {{/each}}
+            </script>
+         </div>
+      </div>
+      <div class="border-blue mt10">
+         <h1 class="h1-atd-title">预警类型
+            <a href="javascript:;" class="fr" onclick="morePersonne()">更多数据</a>
+         </h1>
+         <div class="chart33" style="padding:6px;">
+            <div style="height:240px;" id="chart1"></div>
+         </div>
+      </div>
+   </aside>
+</section>
+<footer>
+   <div class="footerc">
+      <p>版权所有：中华人民共和国公安部 京IPC备 05070602号</p>
+      <p>地址：北京市东长安街14号 邮编：100741</p>
+   </div>
+</footer>
+<article class="meng" onclick="closedList()">
+</article>
+<section class="Tlist" id="list1">
+   <h2>可疑人员列表<i onclick="closedList()"></i></h2>
+   <div class="listContent" style="height: auto;">
+      <ul class="listContentC" id="initAllSuspiciousPersonne" style="overflow: hidden;">
+
+
+      </ul>
+      <script id="tInitAllSuspiciousPersonne" type="text/x-handlebars-template">
+         {{#each data}}
+         <li style="cursor:pointer" onclick="javascript:location.href='antiTerroristParticulars.html?pId={{person_id}}'">
+            <div class="left">
+               <img src="{{photo}}" onerror="imgError(this)">
+            </div>
+            <div class="right">
+               <p style="padding-top: 15px;">姓名：<span>{{person_name}}</span></p>
+               <p>身份证号：<span>{{idcard_no}}</span></p>
+               <p>性别：<span>{{gender}}</span></p>
+               <p>民族：<span>{{nation}}</span></p>
+               <p>手机号：<span>{{mobile}}</span></p>
+               <p>预警类别：<span>{{person_type}}</span></p>
+            </div>
+         </li>
+         {{/each}}
+      </script>
+      <div class="page">
+         <div class="left">页<span id="currpage1">1</span> / 共<span id="spanTotalNums1">17</span>页，每页<span>4</span>条
+         </div>
+         <div class="right" id="page1">
+
+            <!--<div class="right1 pagination" id="page1">-->
+            <!--</div>-->
+
+            <!--<div class="right2">到第-->
+            <!--<input type="text" id="writepagenum1">-->
+            <!--页-->
+            <!--</div>-->
+            <!--<div class="right3">-->
+            <!--<input type="button" onclick="tonewpagenum1()" value="确定">-->
+            <!--</div>-->
+            <!--</div>-->
+         </div>
+      </div>
+</section>
+
+
+<section class="Tlist" id="list2">
+   <h2>举报信息列表<i onclick="closedList()"></i></h2>
+   <div class="listContent">
+      <div id="timeSelect" style="height: 30px;position: relative;">
+         <input type="button" class="inputActive1" onclick="reloadPersonTip(4)" value="近一年"
+                style="cursor: pointer; font-size: 12px; padding:2px 3px; position: absolute;right: 10px;">
+         <input type="button" class="inputActive1" onclick="reloadPersonTip(3)" value="近一季度"
+                style=" cursor: pointer; font-size: 12px; padding:2px 3px;  position: absolute;right: 60px;">
+         <input type="button" class="inputActive1" onclick="reloadPersonTip(2)" value="近一月"
+                style=" cursor: pointer; font-size: 12px; padding:2px 3px;  position: absolute;right: 122px;">
+         <input type="button" class="inputActive1" onclick="reloadPersonTip(1) " value="近一周"
+                style="cursor: pointer;  font-size: 12px; padding:2px 3px; position: absolute;right: 172px;">
+      </div>
+
+      <ul class="listContentC" id="allMassesTip" style="overflow: hidden;">
+
+      </ul>
+      <script id="tAllMassesTip" type="text/x-handlebars-template">
+         {{#each data}}
+         <li>
+            <p><span>{{id}} . </span>{{reportContent}}
+            </p>
+         </li>
+         {{/each}}
+      </script>
+      <div class="page">
+         <div class="left">页<span id="currpage2">1</span> / 共<span id="spanTotalNums2">17</span>页，每页<span>8</span>条</div>
+         <div class="right" id="page2">
+            <!--<div class="right1 pagination" id="page2">-->
+            <!--</div>-->
+            <!--<div class="right2">到第-->
+            <!--<input type="text" id="writepagenum2">-->
+            <!--页-->
+            <!--</div>-->
+            <!--<div class="right3">-->
+            <!--<input type="button" onclick="tonewpagenum2()" value="确定">-->
+            <!--</div>-->
+         </div>
+      </div>
+   </div>
+</section>
+
+<section class="listB" id="list3">
+   <h2>预警信息详情<i onclick="closedListB()"></i></h2>
+   <div class="left" id="listpie"></div>
+   <div class="right">
+      <div class="rightC">
+         <ul id="initEarlyWarningType" style="overflow: hidden;">
+
+
+         </ul>
+         <script id="tInitEarlyWarningType" type="text/x-handlebars-template">
+
+            {{#each data}}
+            <li style="cursor:pointer" onclick="javascript:location.href='antiTerroristParticulars.html?pId={{personId}}'">
+               <div class="rightCtop">
+                  <div class="left11">
+                     <img src="{{photo}}" onerror="imgError(this)">
+                  </div>
+                  <div class="right11">
+                     <p>姓名：<span>{{personName}}</span></p>
+                     <p class="p1">手机号：<span>{{mobile}}</span></p>
+                     <p>性别：<span>{{gender}}</span></p>
+                     <p class="p1">身份证号：<span>{{idcardNo}}</span></p>
+                     <p>民族：<span>{{personType}}</span></p>
+                     <p class="p1">预警类别：<span>{{nation}}</span></p>
+                  </div>
+               </div>
+               <div class="rightCbottom">
+                  <p>预警详情：<span>{{detail}}</span></p>
+               </div>
+            </li>
+            {{/each}}
+         </script>
+
+      </div>
+
+   </div>
+</section>
+
+<script type="text/javascript" src="../js/lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="../js/md/es5-array.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxtransport-xdomainrequest/1.0.3/jquery.xdomainrequest.min.js"
+        type="text/javascript" charset="utf-8"></script>
+
+<!--<script type="text/javascript" src="../js/lib/jquery/jquery.xdomainrequest.min.js"></script>-->
+<script type="text/javascript" src="../js/lib/echarts/echarts3.min.js"></script>
+<script type="text/javascript" src="../js/lib/handlebars-v4_0_5.js"></script>
+<script type="text/javascript" src="../js/lib/jquery/scrollbar/jquery.mCustomScrollbar.js"></script>
+<script type="text/javascript" src="../js/lib/jquery/scrollbar/jquery-mousewhell.js"></script>
+<script type="text/javascript" src="../js/lib/jquery/page/pages.js"></script>
+<script type="text/javascript" src="../js/md/main.js"></script>
+<script type="text/javascript" src="../js/md/common.js"></script>
+<script type="text/javascript" src="../js/md/antiTerroristData.js"></script>
+
+</body>
+</html>
